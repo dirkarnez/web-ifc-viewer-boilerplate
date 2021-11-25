@@ -7,3 +7,4 @@ web-ifc-viewer-boilerplate
 - https://github.com/IFCjs/web-ifc-viewer
 - https://viewer-rocks.autodesk.io/
 - https://threejs.org/examples/webgl_loader_ifc.html
+- **https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_ifc.html**
