@@ -12,6 +12,7 @@ import {
 } from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {IFCLoader} from "web-ifc-three/IFCLoader";
+import { IFCPROPERTYSET } from "web-ifc";
 import {
     acceleratedRaycast,
     computeBoundsTree,
@@ -85,9 +86,27 @@ window.addEventListener("resize", () => {
 //Sets up the IFC loading
 const ifcModels = [];
 const ifcLoader = new IFCLoader();
+
 // ifcLoader.ifcManager.setWasmPath("");
 
 ifcLoader.load("TESTED_Simple_project_01.ifc", (ifcModel) => {
+    // grab all propertyset lines in the file
+    let lines = ifcLoader.ifcManager.ifcAPI.GetLineIDsWithType(ifcModel.modelID, IFCPROPERTYSET);
+
+    // count number of properties
+    let numPropsCount = 0;
+
+    for (let i = 0; i < lines.size(); i++)
+    {
+        let expressID = lines.get(i);
+        if (expressID !== 0)
+        {
+            let propertySet = ifcLoader.ifcManager.ifcAPI.GetLine(ifcModel.modelID, expressID);
+            numPropsCount += propertySet.HasProperties.length;
+        }
+    }
+  
+
     ifcModels.push(ifcModel);
     scene.add(ifcModel)
 });

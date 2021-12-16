@@ -8,3 +8,8 @@ web-ifc-viewer-boilerplate
 - https://viewer-rocks.autodesk.io/
 - https://threejs.org/examples/webgl_loader_ifc.html
 - **https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_ifc.html**
+
+
+### Features
+- PDF, DXF export
+  - https://github.com/IFCjs/web-ifc-viewer/blob/master/example/main.js
