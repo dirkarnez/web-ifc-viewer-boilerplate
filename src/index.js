@@ -12,7 +12,7 @@ import {
 } from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {IFCLoader} from "web-ifc-three/IFCLoader";
-import { IFCPROPERTYSET } from "web-ifc";
+import { IFCCOLUMN, IfcColumn } from "web-ifc";
 import {
     acceleratedRaycast,
     computeBoundsTree,
@@ -89,26 +89,64 @@ const ifcLoader = new IFCLoader();
 
 // ifcLoader.ifcManager.setWasmPath("");
 
-ifcLoader.load("TESTED_Simple_project_01.ifc", (ifcModel) => {
+ifcLoader.load("box.ifc", (ifcModel) => {
     // grab all propertyset lines in the file
-    let lines = ifcLoader.ifcManager.ifcAPI.GetLineIDsWithType(ifcModel.modelID, IFCPROPERTYSET);
+    const ifcAPI = ifcLoader.ifcManager.ifcAPI;
+
+    let modelID = ifcAPI.CreateModel();
+    //let lines = ifcAPI.GetAllLines();
+    //ifcAPI.WriteLine(modelID, ifcAPI.GetLine(modelID, 0));
+
+    function str(v)
+    {
+        return { type: 1, value: v}
+    }
+
+    function empty()
+    {
+        return { type: 6}
+    }
+
+    // https://tomvandig.github.io/web-ifc/examples/viewer/index.html
+    let pt = new IfcColumn(1, 
+        IFCCOLUMN,
+        str("GUID"),
+        empty(),
+        str("name"),
+        empty(),
+        str("label"),
+        //Placement(model, api, pos),
+        //shapeID,
+        str("sadf"),
+        empty());
+
+    ifcAPI.WriteLine(modelID, pt);
+
+    let data = ifcAPI.ExportFileAsIFC(modelID);
+    let content = new TextDecoder().decode(data);
+    ifcAPI.CloseModel(modelID);
+    
+    // IFCAIRTERMINALBOX
+
+    //let lines = ifcAPI.GetLineIDsWithType(ifcModel.modelID, IFCPROPERTYSET);
+
 
     // count number of properties
-    let numPropsCount = 0;
+    // let numPropsCount = 0;
 
-    for (let i = 0; i < lines.size(); i++)
-    {
-        let expressID = lines.get(i);
-        if (expressID !== 0)
-        {
-            let propertySet = ifcLoader.ifcManager.ifcAPI.GetLine(ifcModel.modelID, expressID);
-            numPropsCount += propertySet.HasProperties.length;
-        }
-    }
+    // for (let i = 0; i < lines.size(); i++)
+    // {
+    //     let expressID = lines.get(i);
+    //     if (expressID !== 0)
+    //     {
+    //         let propertySet = ifcLoader.ifcManager.ifcAPI.GetLine(ifcModel.modelID, expressID);
+    //         numPropsCount += propertySet.HasProperties.length;
+    //     }
+    // }
   
 
-    ifcModels.push(ifcModel);
-    scene.add(ifcModel)
+    // ifcModels.push(ifcModel);
+    // scene.add(ifcModel)
 });
 
 
