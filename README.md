@@ -1,5 +1,6 @@
 web-ifc-viewer-boilerplate
 ==========================
+- **https://ifcjs.github.io/web-ifc/examples/viewer/index.html**
 - https://www.buildingsmart.org/
 - https://github.com/IFCjs/hello-world
 - https://github.com/IFCjs/hello-world/tree/main/examples/web-ifc-three
